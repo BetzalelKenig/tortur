@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  tortur:
+    image: tortur
+    container_name: tortur
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8777:8777
+      - 9228:9228
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./:/app
+    command: /bin/bash -c "/usr/bin/tor --RunAsDaemon 1 && nodemon --exec 'node --inspect=0.0.0.0:9228 --require ts-node/register server.ts'"
+
